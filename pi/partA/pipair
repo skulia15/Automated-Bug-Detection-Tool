@@ -1,0 +1,22 @@
+#!/bin/bash
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+file="theFile.txt"
+if [ $# -eq 0 ]; then
+    echo "1 or 3 parameters required"
+fi
+if [ $# -eq 1 ]; then
+    if [ -f $file ] ; then
+        rm $file
+    fi
+    opt-3.3 -print-callgraph $1 2>&1 1>/dev/null 2>$file
+    java -Xms128m -Xmx128m -cp "$DIR/src" debugTool theFile.txt
+    rm $file
+fi
+if [ $# -eq 3 ]; then
+    if [ -f $file ] ; then
+        rm $file
+    fi
+    opt-3.3 -print-callgraph $1 2>&1 1>/dev/null 2>$file
+    java -Xms128m -Xmx128m -cp "$DIR/src" debugTool theFile.txt $2 $3
+    rm $file
+fi
